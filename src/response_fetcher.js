@@ -16,10 +16,7 @@ function getQueryParams(jsonContent){
 }
 
 function queryParamsMatch(jsonContent, currentQueryParams){
-    console.log("Match query params");
     var queryParamsFromFile = getQueryParams(jsonContent);
-    console.dir(queryParamsFromFile)
-    console.dir(currentQueryParams)
     return _.isEqual(queryParamsFromFile, currentQueryParams);
 }
 
@@ -36,10 +33,13 @@ module.exports.fetchResponse = function(method, url, queryParams){
         var responseFile = path.join(testDataFolder, file);
         var fileContent = fs.readFileSync(responseFile);
         var jsonContent = JSON.parse(fileContent);
-        if(jsonContent['method'] == method && url == getUrl(jsonContent) && queryParamsMatch(jsonContent, queryParams) ){
-             console.log("Matching response url " + jsonContent['url']);
+        if(jsonContent['method'] == method
+            && url == getUrl(jsonContent)
+            && queryParamsMatch(jsonContent, queryParams)
+            && requestBodyMatch(jsonContent)){
              response = jsonContent['response'];
         }
     });
+
     return response;
 }
