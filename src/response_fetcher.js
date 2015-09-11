@@ -22,10 +22,23 @@ function queryParamsMatch(jsonContent, currentQueryParams){
 
 function getUrl(jsonContent){
     var rawUrl = jsonContent['url'];
-    return rawUrl.indexOf("?") > -1 ? rawUrl.split("?")[1] : rawUrl;
+    return rawUrl.indexOf("?") > -1 ? rawUrl.split("?")[0] : rawUrl;
 }
 
-module.exports.fetchResponse = function(method, url, queryParams){
+function requestBodyMatch(method, jsonContent, currentRequestBody){
+    if(method == 'GET'){
+        return true;
+    }
+    var match = true;
+
+    _.forIn(jsonContent['body'], function(value, key){
+        match &= currentRequestBody[key] == value;
+    });
+
+    return match;
+}
+
+module.exports.fetchResponse = function(request){
     var files = fs.readdirSync(testDataFolder);
     var response = null;
 
@@ -33,10 +46,11 @@ module.exports.fetchResponse = function(method, url, queryParams){
         var responseFile = path.join(testDataFolder, file);
         var fileContent = fs.readFileSync(responseFile);
         var jsonContent = JSON.parse(fileContent);
-        if(jsonContent['method'] == method
-            && url == getUrl(jsonContent)
-            && queryParamsMatch(jsonContent, queryParams)
-            && requestBodyMatch(jsonContent)){
+
+        if(jsonContent['method'] == request.method
+            && request.path == getUrl(jsonContent)
+            && queryParamsMatch(jsonContent, request.query)
+            && requestBodyMatch(request.method, jsonContent, request.body)){
              response = jsonContent['response'];
         }
     });
