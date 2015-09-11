@@ -2,8 +2,6 @@ var fs = require("fs"),
     path = require("path"),
     _ = require("lodash");
 
-var testDataFolder = "/home/ajay/learn/APIStubMaker/testdata"
-
 function getQueryParams(jsonContent){
     var queryParamMap = {};
     var queryParams = jsonContent['url'].indexOf("?") > -1 ?
@@ -38,22 +36,29 @@ function requestBodyMatch(method, jsonContent, currentRequestBody){
     return match;
 }
 
-module.exports.fetchResponse = function(request){
-    var files = fs.readdirSync(testDataFolder);
-    var response = null;
+module.exports = function(testDataPath){
 
-    files.forEach(function(file){
-        var responseFile = path.join(testDataFolder, file);
-        var fileContent = fs.readFileSync(responseFile);
-        var jsonContent = JSON.parse(fileContent);
+    return {
+                'fetchResponse': function(request){
+                   var files = fs.readdirSync(testDataPath);
+                   var response = null;
 
-        if(jsonContent['method'] == request.method
-            && request.path == getUrl(jsonContent)
-            && queryParamsMatch(jsonContent, request.query)
-            && requestBodyMatch(request.method, jsonContent, request.body)){
-             response = jsonContent['response'];
-        }
-    });
+                   files.forEach(function(file){
+                       var responseFile = path.join(testDataFolder, file);
+                       var fileContent = fs.readFileSync(responseFile);
+                       var jsonContent = JSON.parse(fileContent);
 
-    return response;
+                       if(jsonContent['method'] == request.method
+                           && request.path == getUrl(jsonContent)
+                           && queryParamsMatch(jsonContent, request.query)
+                           && requestBodyMatch(request.method, jsonContent, request.body)){
+                            response = jsonContent['response'];
+                       }
+                   });
+
+                   return response;
+               }
+          };
+
 }
+

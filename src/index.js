@@ -2,7 +2,13 @@ var express = require('express');
 var app = express();
 var fs = require('fs');
 var bodyParser = require('body-parser');
-var responseFetcher = require('./response_fetcher');
+
+if(process.argv.length < 3){
+    throw "Expected commandline line format: node index.js test-data-path [port]";
+}
+var stubPort = process.argv.length == 4 ? process.argv[3] : 3000;
+
+var responseFetcher = require('./response_fetcher')(process.argv[2]);
 
 
 app.use(bodyParser.json());
@@ -33,7 +39,7 @@ function handleRequest(req, res){
 
     return res.json(response);
 };
-var server = app.listen(3000, function(){
+var server = app.listen(stubPort, function(){
     var host = server.address().address;
     var port = server.address().port;
 
