@@ -1,5 +1,8 @@
 #APIStubMaker
 
+On receiving a request the stub traverses through the stub response folder files to find a matching response based
+on HTTP verb, url, query-strings and request body parameters.
+The response of the first suitable match is returned and a 404 is returned if no match is found.
 
 ##Steps to execute
 1. git clone https://github.com/ajaydivakaran/apistubmaker.git
