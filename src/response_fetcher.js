@@ -4,12 +4,15 @@ var fs = require("fs"),
 
 function getQueryParams(jsonContent){
     var queryParamMap = {};
+
     var queryParams = jsonContent['url'].indexOf("?") > -1 ?
                         jsonContent['url'].substring(jsonContent['url'].indexOf("?") + 1).split("&") : [];
+
     queryParams.forEach(function(queryParam){
         var queryParamSplit = queryParam.split("=");
         queryParamMap[queryParamSplit[0]] = queryParamSplit[1];
     });
+
     return queryParamMap;
 }
 
@@ -40,11 +43,11 @@ module.exports = function(testDataPath){
 
     return {
                 'fetchResponse': function(request){
-                   var files = fs.readdirSync(testDataPath);
+                   var responseFiles = fs.readdirSync(testDataPath);
                    var response = null;
 
-                   files.forEach(function(file){
-                       var responseFile = path.join(testDataFolder, file);
+                   responseFiles.forEach(function(file){
+                       var responseFile = path.join(testDataPath, file);
                        var fileContent = fs.readFileSync(responseFile);
                        var jsonContent = JSON.parse(fileContent);
 
