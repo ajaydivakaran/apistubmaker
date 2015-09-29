@@ -24,6 +24,21 @@ The response of the first suitable match is returned and a 404 is returned if no
   }
 }
 ```
+
+###Stub response file format for GET request with regex URL match:
+
+```javascript
+{
+  "method": "GET",
+  "match_regex": true,
+  "url": "^\/abc\\?q=3$",
+  "response": {
+    "status": "success",
+    "order": "123"
+  }
+}
+```
+
 ### Stub response file format for POST request:
 
 ```javascript

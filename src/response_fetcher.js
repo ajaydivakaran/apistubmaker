@@ -17,6 +17,9 @@ function getQueryParams(jsonContent){
 }
 
 function queryParamsMatch(jsonContent, currentQueryParams){
+    if(isRegexMatchEnabled(jsonContent))
+        return true;
+
     var queryParamsFromFile = getQueryParams(jsonContent);
     return _.isEqual(queryParamsFromFile, currentQueryParams);
 }
@@ -27,9 +30,9 @@ function getUrl(jsonContent){
 }
 
 function requestBodyMatch(method, jsonContent, currentRequestBody){
-    if(method == 'GET'){
+    if(method == 'GET')
         return true;
-    }
+
     var match = true;
 
     _.forIn(jsonContent['body'], function(value, key){
@@ -37,6 +40,21 @@ function requestBodyMatch(method, jsonContent, currentRequestBody){
     });
 
     return match;
+}
+
+function verbMatch(jsonContent, request){
+    return jsonContent['method'] == request.method;
+}
+
+function isRegexMatchEnabled(jsonContent){
+    return 'match_regex' in jsonContent && jsonContent['match_regex']
+}
+
+function urlMatch(jsonContent, request){
+    if(isRegexMatchEnabled(jsonContent))
+        return request.originalUrl.match(jsonContent['url']);
+
+    return request.path == getUrl(jsonContent)
 }
 
 module.exports = function(testDataPath){
@@ -51,8 +69,8 @@ module.exports = function(testDataPath){
                        var fileContent = fs.readFileSync(responseFile);
                        var jsonContent = JSON.parse(fileContent);
 
-                       if(jsonContent['method'] == request.method
-                           && request.path == getUrl(jsonContent)
+                       if( verbMatch(jsonContent, request)
+                           && urlMatch(jsonContent, request)
                            && queryParamsMatch(jsonContent, request.query)
                            && requestBodyMatch(request.method, jsonContent, request.body)){
                             response = jsonContent['response'];

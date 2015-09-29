@@ -30,7 +30,13 @@ function handleRequest(req, res){
     console.log("request body");
     console.dir(req.body);
 
-    var request = {"method": req.method, "path": req.path, "query": req.query, "body": req.body};
+    var request = {
+                    "method": req.method,
+                    "path": req.path,
+                    "query": req.query,
+                    "body": req.body,
+                    "originalUrl": req.originalUrl
+                  };
     var response = responseFetcher.fetchResponse(request);
 
     if (response == null){
