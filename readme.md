@@ -4,6 +4,11 @@ On receiving a request the stub traverses through the stub response folder files
 on HTTP verb, url, query-strings and request body parameters.
 The response of the first suitable match is returned and a 404 is returned if no match is found.
 
+#Features
+1. Match url using regular expressions.
+2. Stub HTTP response code.
+3. Support GET/POST requests.
+
 ##Steps to execute
 1. git clone https://github.com/ajaydivakaran/apistubmaker.git
 2. cd apistubmaker && npm install
@@ -36,6 +41,17 @@ The response of the first suitable match is returned and a 404 is returned if no
     "status": "success",
     "order": "123"
   }
+}
+```
+
+###Stub response file format for GET request with response code:
+
+```javascript
+{
+  "method": "GET",
+  "match_regex": true,
+  "url": "/books/1234",
+  "response_code": 404
 }
 ```
 

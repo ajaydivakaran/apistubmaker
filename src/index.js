@@ -39,11 +39,11 @@ function handleRequest(req, res){
                   };
     var response = responseFetcher.fetchResponse(request);
 
-    if (response == null){
+    if (response.code == null && response.body == null){
         return res.status(404).end();
     }
 
-    return res.json(response);
+    return res.status(response.code).json(response.body);
 };
 var server = app.listen(stubPort, function(){
     var host = server.address().address;

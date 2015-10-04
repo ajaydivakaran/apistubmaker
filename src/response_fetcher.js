@@ -62,7 +62,9 @@ module.exports = function(testDataPath){
     return {
                 'fetchResponse': function(request){
                    var responseFiles = fs.readdirSync(testDataPath);
-                   var response = null;
+                   var responseBody = null;
+                   var responseCode = null;
+
 
                    responseFiles.forEach(function(file){
                        var responseFile = path.join(testDataPath, file);
@@ -73,11 +75,12 @@ module.exports = function(testDataPath){
                            && urlMatch(jsonContent, request)
                            && queryParamsMatch(jsonContent, request.query)
                            && requestBodyMatch(request.method, jsonContent, request.body)){
-                            response = jsonContent['response'];
+                            responseBody = jsonContent['response'];
+                            responseCode = _.get(jsonContent, 'response_code', 200);
                        }
                    });
 
-                   return response;
+                   return {'code': responseCode, 'body': responseBody};
                }
           };
 
