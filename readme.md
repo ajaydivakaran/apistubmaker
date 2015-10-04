@@ -1,4 +1,5 @@
-#APIStubMaker
+#APIStubMaker 
+###Quick and easy way to create API stubs
 
 On receiving a request the stub traverses through the stub response folder files to find a matching response based
 on HTTP verb, url, query-strings and request body parameters.
