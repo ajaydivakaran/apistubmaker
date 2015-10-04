@@ -1,0 +1,9 @@
+{
+  "method": "GET",
+  "match_regex": true,
+  "url": "^\/abc\\?q=3$",
+  "response": {
+    "status": "success",
+    "order": "9090"
+  }
+}

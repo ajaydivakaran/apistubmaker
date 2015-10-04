@@ -1,0 +1,13 @@
+{
+  "method": "POST",
+  "url": "/order/999",
+  "body": {
+    "name": "Ajay",
+    "age": 29
+  },
+  "response": {
+    "status": "success",
+    "order": "999",
+    "some": "thing"
+  }
+}

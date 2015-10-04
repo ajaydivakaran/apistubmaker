@@ -1,0 +1,8 @@
+{
+  "method": "GET",
+  "url": "/order/123?a=10&b=11",
+  "response": {
+    "status": "success",
+    "order": "123"
+  }
+}

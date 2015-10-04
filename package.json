@@ -4,7 +4,7 @@
   "description": "Easily create stub responses based on URL or body content",
   "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./node_modules/mocha/bin/mocha tests/functional_tests.js"
   },
   "author": "Ajay Divakaran",
   "license": "MIT",
@@ -12,5 +12,10 @@
     "body-parser": "^1.13.3",
     "express": "^4.13.3",
     "lodash": "^3.10.1"
+  },
+  "devDependencies": {
+    "mocha": "^2.3.3",
+    "superagent": "^1.4.0",
+    "supertest": "^1.1.0"
   }
 }
