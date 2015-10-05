@@ -74,3 +74,17 @@ The response of the first suitable match is returned and a 404 is returned if no
   }
 }
 ```
+
+### Stub response file format for GET request with specified content-type:
+
+```javascript
+
+{
+  "method": "GET",
+  "match_regex": false,
+  "url": "/books.html",
+  "content_type": "text/html",
+  "response": "<html><body><h1>some html</h1></body></html>"
+}
+
+```
