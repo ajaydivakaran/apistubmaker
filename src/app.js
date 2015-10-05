@@ -35,7 +35,7 @@ function handleRequest(req, res){
         return res.status(404).end();
     }
 
-    return res.status(response.code).json(response.body);
+    return res.status(response.code).set('Content-Type', response.contentType).send(response.body);
 }
 
 module.exports = function(responseFetcherArg){

@@ -4,7 +4,8 @@
   "description": "Easily create stub responses based on URL or body content",
   "main": "src/index.js",
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha tests/functional_tests.js"
+    "test": "./node_modules/mocha/bin/mocha tests/functional_tests.js",
+    "start": "node src/index.js"
   },
   "author": "Ajay Divakaran",
   "license": "MIT",

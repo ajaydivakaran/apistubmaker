@@ -1,0 +1,19 @@
+{
+  "method": "GET",
+  "match_regex": false,
+  "url": "/books",
+  "response": [
+    {"name": "Book1",
+     "genre": "Genre1",
+     "isbn": "123123"
+    },
+    {"name": "Book2",
+     "genre": "Genre1",
+     "isbn": "1233444"
+    },
+    {"name": "Book3",
+     "genre": "Genre2",
+     "isbn": "126666"
+    }
+  ]
+}

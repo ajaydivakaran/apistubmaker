@@ -1,6 +1,0 @@
-{
-  "method": "GET",
-  "match_regex": true,
-  "url": "/book/404",
-  "response_code": 404
-}

@@ -141,7 +141,31 @@ describe("APIStubMaker", function(){
                     done();
                 })
         });
-    
+
+        it("should return content as html when content type is specified as application/html", function(done){
+
+            var expectedStatusCode = 200;
+            var expectedResponse = "<html><body><h1>some html</h1></body></html>";
+
+            request(app)
+                .get('/books.html')
+                .end(function(err, res){
+                    assert.equal(expectedStatusCode, res.status);
+                    assert.equal("text/html; charset=utf-8", res.header['content-type']);
+                    assert.equal(expectedResponse, res.text);
+                    done();
+                })
+        });
+
+        it("should return content as json when content type is not specified", function(done){
+
+            request(app)
+                .get('/order/456')
+                .end(function(err, res){
+                    assert.equal("application/json; charset=utf-8", res.header['content-type']);
+                    done();
+                })
+        });
     
     });
 

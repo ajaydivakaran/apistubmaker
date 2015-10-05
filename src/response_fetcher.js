@@ -64,6 +64,7 @@ module.exports = function(testDataPath){
                    var responseFiles = fs.readdirSync(testDataPath);
                    var responseBody = null;
                    var responseCode = null;
+                   var contentType = null;
 
 
                    responseFiles.forEach(function(file){
@@ -77,10 +78,11 @@ module.exports = function(testDataPath){
                            && requestBodyMatch(request.method, jsonContent, request.body)){
                             responseBody = jsonContent['response'];
                             responseCode = _.get(jsonContent, 'response_code', 200);
+                            contentType = _.get(jsonContent, 'content_type', 'application/json');
                        }
                    });
 
-                   return {'code': responseCode, 'body': responseBody};
+                   return {'code': responseCode, 'contentType': contentType,  'body': responseBody};
                }
           };
 

@@ -1,0 +1,7 @@
+{
+  "method": "GET",
+  "match_regex": false,
+  "url": "/books.html",
+  "content_type": "text/html",
+  "response": "<html><body><h1>some html</h1></body></html>"
+}
