@@ -7,8 +7,9 @@ The response of the first suitable match is returned and a 404 is returned if no
 
 #Features
 1. Match url using regular expressions.
-2. Stub HTTP response code.
+2. Customize HTTP response code.
 3. Support GET/POST requests.
+4. Customize response Content-Type.
 
 ##Steps to execute
 1. git clone https://github.com/ajaydivakaran/apistubmaker.git
