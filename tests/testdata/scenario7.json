@@ -1,0 +1,9 @@
+{
+  "method": "GET",
+  "url": "/game/123",
+  "priority": 2,
+  "response": {
+    "status": "success",
+    "message": "game-123"
+  }
+}

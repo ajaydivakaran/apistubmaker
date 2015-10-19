@@ -57,28 +57,60 @@ function urlMatch(jsonContent, request){
     return request.path == getUrl(jsonContent)
 }
 
-module.exports = function(testDataPath){
+function getResponsePriorityValue(jsonContent) {
+    return _.get(jsonContent, 'priority', 0);
+}
+
+function comparePriorityValue(currentPriorityValue, jsonContent){
+    var responsePriorityValue = getResponsePriorityValue(jsonContent);
+    return currentPriorityValue <= responsePriorityValue;
+}
+
+var responseFileCache = [];
+var fileNameToContentMap = {};
+
+function getResponseFileNames(enableCache, testDataPath){
+    if(enableCache && responseFileCache.length > 0){
+        return responseFileCache;
+    }
+    responseFileCache = fs.readdirSync(testDataPath);
+    return responseFileCache;
+}
+
+function getFileContentAsJSON(enableCache, responseFilePath){
+    if(enableCache && _.get(fileNameToContentMap, responseFilePath, null)){
+        return _.get(fileNameToContentMap, responseFilePath);
+    }
+    var fileContent = fs.readFileSync(responseFilePath);
+    var jsonContent = JSON.parse(fileContent);
+    fileNameToContentMap[responseFilePath] = jsonContent;
+    return fileNameToContentMap[responseFilePath];
+}
+
+module.exports = function(testDataPath, enableCache){
 
     return {
                 'fetchResponse': function(request){
-                   var responseFiles = fs.readdirSync(testDataPath);
+                   var responseFiles = getResponseFileNames(enableCache, testDataPath);
                    var responseBody = null;
                    var responseCode = null;
                    var contentType = null;
+                   var priorityValue = 0;
 
 
                    responseFiles.forEach(function(file){
-                       var responseFile = path.join(testDataPath, file);
-                       var fileContent = fs.readFileSync(responseFile);
-                       var jsonContent = JSON.parse(fileContent);
+                       var responseFilePath = path.join(testDataPath, file);
+                       var jsonContent = getFileContentAsJSON(enableCache, responseFilePath);
 
                        if( verbMatch(jsonContent, request)
                            && urlMatch(jsonContent, request)
                            && queryParamsMatch(jsonContent, request.query)
-                           && requestBodyMatch(request.method, jsonContent, request.body)){
+                           && requestBodyMatch(request.method, jsonContent, request.body)
+                           && comparePriorityValue(priorityValue, jsonContent) ){
                             responseBody = jsonContent['response'];
                             responseCode = _.get(jsonContent, 'response_code', 200);
                             contentType = _.get(jsonContent, 'content_type', 'application/json');
+                            priorityValue = getResponsePriorityValue(jsonContent);
                        }
                    });
 
@@ -86,5 +118,5 @@ module.exports = function(testDataPath){
                }
           };
 
-}
+};
 

@@ -1,0 +1,10 @@
+{
+  "method": "GET",
+  "url": "^\/game\/\\d+$",
+  "match_regex": true,
+  "priority": 1,
+  "response": {
+    "status": "success",
+    "message": "catch-all"
+  }
+}

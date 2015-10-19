@@ -9,7 +9,7 @@ describe("APIStubMaker", function(){
 
     before(function(){
         var testDataPath = path.join(__dirname, '/testdata');
-        var responseFetcher = require('../src/response_fetcher')(testDataPath);
+        var responseFetcher = require('../src/response_fetcher')(testDataPath, true);
         app = require('../src/app')(responseFetcher);
     });
 
@@ -115,7 +115,7 @@ describe("APIStubMaker", function(){
                     assert.equal(expectedStatusCode, res.status);
                     assert.deepEqual(expectedResponse, res.body);
                     done();
-                })
+                });
         });
     
         it("should return stubbed response code", function(done){
@@ -165,6 +165,34 @@ describe("APIStubMaker", function(){
                     assert.equal("application/json; charset=utf-8", res.header['content-type']);
                     done();
                 })
+        });
+
+        it("should return response with higher priority when multiple matches found", function(done){
+
+            var expectedResponse = {"status": "success", "message": "game-123"};
+            var expectedStatusCode = 200;
+
+            request(app)
+                .get('/game/123')
+                .end(function(err, res){
+                    assert.equal(expectedStatusCode, res.status);
+                    assert.deepEqual(expectedResponse, res.body);
+                    done();
+                });
+        });
+
+        it("should return catch all response when higher priority response does not match", function(done){
+
+            var expectedResponse = {"status": "success", "message": "catch-all"};
+            var expectedStatusCode = 200;
+
+            request(app)
+                .get('/game/999')
+                .end(function(err, res){
+                    assert.equal(expectedStatusCode, res.status);
+                    assert.deepEqual(expectedResponse, res.body);
+                    done();
+                });
         });
     
     });

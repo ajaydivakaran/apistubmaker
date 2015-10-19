@@ -1,13 +1,22 @@
-if(process.argv.length < 3){
-    throw "Expected commandline line format: node index.js test-data-path [port]";
-}
-var responseFetcher = require('./response_fetcher')(process.argv[2]);
+var argv = require('yargs')
+    .usage('Usage: index.js -l [stub-path] -p [port number] -c [enable-cache]')
+    .demand(['l'])
+    .describe('l', 'stub folder location')
+    .alias('l', 'stubFolderLocation')
+    .describe('p', 'port number to listen on')
+    .alias('p', 'stubPort')
+    .describe('c', 'enable caching of response file being read from disk')
+    .alias('c', 'enableCache')
+    .default('p', 3000)
+    .default('c', false)
+    .argv;
+
+
+var responseFetcher = require('./response_fetcher')(argv.stubFolderLocation, argv.enableCache);
 
 var app = require('./app')(responseFetcher);
 
-var stubPort = process.argv.length == 4 ? process.argv[3] : 3000;
-
-var server = app.listen(stubPort, function(){
+var server = app.listen(argv.stubPort, function(){
     var host = server.address().address;
     var port = server.address().port;
 
