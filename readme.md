@@ -20,9 +20,9 @@ If multiple response files match then the response from the file with highest pr
 3. Create folder containing text files of the below mentioned format.
 4. node src/index.js -l [stub-response-folder path] -p [optional port number] -c [cache response files] 
 
-##Response file format:
+##Specification examples:
 
-###Stub response file format for GET request:
+###GET request with exact url match:
 
 ```javascript
 {
@@ -35,7 +35,7 @@ If multiple response files match then the response from the file with highest pr
 }
 ```
 
-###Stub response file format for GET request with regex URL match:
+###GET request with regex URL match:
 
 ```javascript
 {
@@ -49,7 +49,7 @@ If multiple response files match then the response from the file with highest pr
 }
 ```
 
-###Stub response file format for GET request with response code:
+###GET request with response code:
 
 ```javascript
 {
@@ -60,7 +60,7 @@ If multiple response files match then the response from the file with highest pr
 }
 ```
 
-### Stub response file format for POST request:
+### POST request:
 
 ```javascript
 
@@ -79,7 +79,7 @@ If multiple response files match then the response from the file with highest pr
 }
 ```
 
-### Stub response file format for GET request with specified content-type:
+### GET request with specified content-type:
 
 ```javascript
 
@@ -93,7 +93,7 @@ If multiple response files match then the response from the file with highest pr
 
 ```
 
-### Stub response file format for GET request with priority value:
+### GET request with priority value:
 
 ```javascript
 
