@@ -1,5 +1,5 @@
 #APIStubMaker [![Build Status](https://snap-ci.com/ajaydivakaran/apistubmaker/branch/master/build_image)](https://snap-ci.com/ajaydivakaran/apistubmaker/branch/master)
-###Quick and easy way to create API stubs
+### Create stub responses using specifications and not code!
 
 On receiving a request the stub traverses through the stub response folder files to find a matching response based
 on HTTP verb, url, query-strings and request body parameters.
